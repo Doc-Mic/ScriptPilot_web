@@ -1,0 +1,2143 @@
+@import "tailwindcss";
+
+:root {
+  --background: #070b14;
+  --foreground: #f6f8ff;
+  --panel: #101725;
+  --panel-strong: #151f32;
+  --panel-soft: #0d1422;
+  --border: #26324a;
+  --border-strong: #435071;
+  --muted: #9ba8bf;
+  --muted-strong: #cbd3e4;
+  --accent: #8fa2ff;
+  --accent-strong: #42c9f6;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--background);
+}
+
+body {
+  min-height: 100vh;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+}
+
+button,
+a,
+input,
+select,
+textarea {
+  letter-spacing: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+.button-primary,
+.button-secondary,
+.scriptpilot-primary-action {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.6rem;
+  padding: 0.75rem 1rem;
+  font-size: 0.95rem;
+  font-weight: 800;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease,
+    color 150ms ease,
+    opacity 150ms ease,
+    transform 150ms ease;
+}
+
+.button-primary,
+.scriptpilot-primary-action {
+  border: 1px solid rgba(143, 162, 255, 0.7);
+  background: #8fa2ff;
+  color: #111827;
+}
+
+.button-primary:hover,
+.scriptpilot-primary-action:hover {
+  background: #a9b7ff;
+}
+
+.button-secondary {
+  border: 1px solid var(--border);
+  background: #111827;
+  color: var(--foreground);
+}
+
+.button-secondary:hover {
+  border-color: var(--border-strong);
+  background: #172033;
+}
+
+.scriptpilot-primary-action:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.scriptpilot-screen {
+  min-height: 100vh;
+  overflow-x: hidden;
+  background:
+    radial-gradient(circle at 12% 10%, rgba(66, 201, 246, 0.12), transparent 28%),
+    radial-gradient(circle at 86% 8%, rgba(143, 162, 255, 0.16), transparent 24%),
+    linear-gradient(180deg, #0a1020 0%, #070b14 52%, #05070d 100%);
+  color: #ffffff;
+}
+
+.scriptpilot-app-shell {
+  display: grid;
+  min-height: 100vh;
+  grid-template-columns: 280px minmax(0, 1fr);
+}
+
+.scriptpilot-sidebar {
+  position: sticky;
+  top: 0;
+  display: flex;
+  height: 100vh;
+  flex-direction: column;
+  border-right: 1px solid rgba(67, 80, 113, 0.5);
+  background: rgba(8, 12, 22, 0.88);
+  padding: 28px 22px;
+  backdrop-filter: blur(18px);
+}
+
+.scriptpilot-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #ffffff;
+}
+
+.scriptpilot-brand-logo,
+.scriptpilot-brand-mark {
+  display: block;
+  height: 42px;
+  width: 42px;
+  border-radius: 12px;
+  border: 1px solid rgba(143, 162, 255, 0.45);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.28);
+  object-fit: cover;
+}
+
+.scriptpilot-brand-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #26345b, #151b33);
+  color: #cdd6ff;
+  font-size: 0.86rem;
+  font-weight: 900;
+  object-fit: initial;
+}
+
+.scriptpilot-brand-name,
+.scriptpilot-brand-caption {
+  display: block;
+}
+
+.scriptpilot-brand-name {
+  font-size: 1rem;
+  font-weight: 900;
+}
+
+.scriptpilot-brand-caption {
+  margin-top: 2px;
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.scriptpilot-side-nav {
+  display: grid;
+  gap: 6px;
+  margin-top: 36px;
+}
+
+.scriptpilot-side-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  border-radius: 10px;
+  padding: 10px 12px;
+  color: var(--muted);
+  font-size: 0.92rem;
+  font-weight: 750;
+  transition:
+    background-color 150ms ease,
+    color 150ms ease;
+}
+
+.scriptpilot-side-nav-item:hover,
+.scriptpilot-side-nav-item.active {
+  background: rgba(143, 162, 255, 0.13);
+  color: #ffffff;
+}
+
+.scriptpilot-side-nav-item.active {
+  box-shadow: inset 3px 0 0 var(--accent);
+}
+
+.scriptpilot-sidebar-footer {
+  margin-top: auto;
+  display: grid;
+  gap: 12px;
+  border-top: 1px solid rgba(67, 80, 113, 0.45);
+  padding-top: 18px;
+}
+
+.scriptpilot-sidebar-footer p {
+  overflow: hidden;
+  color: var(--muted);
+  font-size: 0.82rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.scriptpilot-signout-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  padding: 10px 12px;
+  color: var(--muted-strong);
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.scriptpilot-signout-button:hover {
+  border-color: var(--border-strong);
+  color: #ffffff;
+}
+
+.scriptpilot-main {
+  width: 100%;
+  min-width: 0;
+  padding: 42px;
+}
+
+.scriptpilot-topbar {
+  margin: 0 auto 30px;
+  max-width: 1180px;
+}
+
+.scriptpilot-eyebrow {
+  color: var(--accent);
+  font-size: 0.75rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.scriptpilot-topbar h1 {
+  margin-top: 8px;
+  color: #ffffff;
+  font-size: clamp(2rem, 3vw, 3.45rem);
+  font-weight: 900;
+  line-height: 1;
+}
+
+.scriptpilot-topbar p:not(.scriptpilot-eyebrow) {
+  margin-top: 10px;
+  max-width: 760px;
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.scriptpilot-content-panel {
+  margin: 0 auto;
+  max-width: 1180px;
+}
+
+.scriptpilot-auth-state {
+  display: grid;
+  min-height: 100vh;
+  place-content: center;
+  padding: 32px;
+  text-align: center;
+}
+
+.scriptpilot-auth-state h1 {
+  margin-top: 10px;
+  font-size: 2.5rem;
+  font-weight: 900;
+}
+
+.scriptpilot-auth-state p:last-child {
+  margin-top: 10px;
+  color: var(--muted);
+}
+
+.scriptpilot-feature-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.scriptpilot-feature-header h2 {
+  flex: 1;
+  color: #ffffff;
+  font-size: 1.35rem;
+  font-weight: 900;
+}
+
+.scriptpilot-icon-button {
+  display: inline-flex;
+  height: 40px;
+  width: 40px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  color: var(--muted-strong);
+}
+
+.scriptpilot-icon-button:hover {
+  border-color: var(--border-strong);
+  color: #ffffff;
+}
+
+.scriptpilot-dashboard-intro {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 22px;
+}
+
+.scriptpilot-dashboard-intro h2 {
+  margin-top: 8px;
+  color: #ffffff;
+  font-size: clamp(1.65rem, 2.4vw, 2.3rem);
+  font-weight: 900;
+  line-height: 1.05;
+}
+
+.scriptpilot-dashboard-intro p:not(.scriptpilot-eyebrow) {
+  margin-top: 8px;
+  max-width: 720px;
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.55;
+}
+
+.scriptpilot-workflow-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.scriptpilot-workflow-card {
+  display: flex;
+  min-height: 238px;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.035), transparent),
+    var(--panel);
+  padding: 24px;
+  color: #ffffff;
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.18);
+  transition:
+    border-color 160ms ease,
+    transform 160ms ease,
+    background-color 160ms ease;
+}
+
+.scriptpilot-workflow-card:hover {
+  border-color: rgba(143, 162, 255, 0.72);
+  background-color: var(--panel-strong);
+  transform: translateY(-2px);
+}
+
+.scriptpilot-workflow-icon {
+  display: inline-flex;
+  height: 46px;
+  width: 46px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  border: 1px solid rgba(143, 162, 255, 0.32);
+  background: rgba(143, 162, 255, 0.12);
+  color: #cdd6ff;
+}
+
+.scriptpilot-workflow-card h3 {
+  margin-top: 22px;
+  max-width: 12rem;
+  color: #ffffff;
+  font-size: 1.35rem;
+  font-weight: 900;
+  line-height: 1.15;
+}
+
+.scriptpilot-workflow-card p {
+  margin-top: 8px;
+  max-width: 13rem;
+  color: var(--muted-strong);
+  font-size: 1rem;
+  line-height: 1.45;
+}
+
+.scriptpilot-workflow-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.scriptpilot-pill {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  border: 1px solid rgba(143, 162, 255, 0.22);
+  background: rgba(143, 162, 255, 0.09);
+  padding: 5px 9px;
+  color: #c5ceff;
+  font-size: 0.72rem;
+  font-weight: 850;
+}
+
+.scriptpilot-section-toolbar {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+  color: var(--muted);
+  font-size: 0.92rem;
+  font-weight: 750;
+}
+
+.scriptpilot-compact-field {
+  display: grid;
+  gap: 7px;
+}
+
+.scriptpilot-compact-field span {
+  color: var(--muted);
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.scriptpilot-compact-field select {
+  min-height: 42px;
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid var(--border-strong);
+  background: #0b111d;
+  padding: 9px 12px;
+  color: #ffffff;
+  font-size: 0.92rem;
+  font-weight: 800;
+  outline: none;
+}
+
+.scriptpilot-compact-field select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(143, 162, 255, 0.14);
+}
+
+.scriptpilot-compact-field option {
+  background: #0b111d;
+  color: #ffffff;
+}
+
+.scriptpilot-feature-layout {
+  display: grid;
+  grid-template-columns: minmax(320px, 0.92fr) minmax(0, 1.45fr);
+  gap: 22px;
+  align-items: start;
+}
+
+.scriptpilot-form-card,
+.scriptpilot-result-panel,
+.scriptpilot-quota-card,
+.scriptpilot-idea-card,
+.scriptpilot-script-output,
+.scriptpilot-short-output,
+.scriptpilot-seo-card {
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--panel);
+}
+
+.scriptpilot-form-card,
+.scriptpilot-result-panel {
+  display: grid;
+  gap: 18px;
+  padding: 20px;
+}
+
+.scriptpilot-form-card {
+  position: sticky;
+  top: 24px;
+}
+
+.scriptpilot-field {
+  display: grid;
+  gap: 8px;
+}
+
+.scriptpilot-field > span {
+  color: var(--muted-strong);
+  font-size: 0.88rem;
+  font-weight: 850;
+}
+
+.scriptpilot-field input,
+.scriptpilot-field select,
+.scriptpilot-field textarea {
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid var(--border-strong);
+  background: #0b111d;
+  padding: 12px 13px;
+  color: #ffffff;
+  font-size: 0.98rem;
+  line-height: 1.5;
+  outline: none;
+}
+
+.scriptpilot-field textarea {
+  resize: vertical;
+}
+
+.scriptpilot-field select option {
+  background: #0b111d;
+  color: #ffffff;
+}
+
+.scriptpilot-field input:focus,
+.scriptpilot-field select:focus,
+.scriptpilot-field textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(143, 162, 255, 0.14);
+}
+
+.scriptpilot-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+}
+
+.scriptpilot-chip-row button {
+  border-radius: 10px;
+  border: 1px solid var(--border-strong);
+  background: #111a2b;
+  padding: 9px 12px;
+  color: var(--muted-strong);
+  font-size: 0.9rem;
+  font-weight: 850;
+}
+
+.scriptpilot-chip-row button.active {
+  border-color: rgba(66, 201, 246, 0.72);
+  background: #086a95;
+  color: #ffffff;
+}
+
+.scriptpilot-quota-card {
+  background: linear-gradient(180deg, rgba(143, 162, 255, 0.1), rgba(143, 162, 255, 0.035));
+  padding: 14px;
+}
+
+.scriptpilot-quota-card p:not(.scriptpilot-panel-label) {
+  margin-top: 4px;
+  color: var(--muted-strong);
+  font-size: 0.96rem;
+}
+
+.scriptpilot-quota-card span {
+  margin-top: 12px;
+  display: inline-flex;
+  border-radius: 999px;
+  background: rgba(66, 201, 246, 0.1);
+  padding: 5px 9px;
+  color: #9ee9ff;
+  font-size: 0.76rem;
+  font-weight: 900;
+}
+
+.scriptpilot-feature-loading {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  border: 1px solid rgba(143, 162, 255, 0.24);
+  border-radius: 16px;
+  background:
+    linear-gradient(90deg, rgba(143, 162, 255, 0.12), rgba(66, 201, 246, 0.06)),
+    var(--panel);
+  padding: 18px;
+}
+
+.scriptpilot-feature-loading > span {
+  display: block;
+  height: 34px;
+  width: 34px;
+  flex: 0 0 auto;
+  border: 3px solid rgba(143, 162, 255, 0.24);
+  border-top-color: var(--accent);
+  border-radius: 999px;
+  animation: scriptpilot-spin 800ms linear infinite;
+}
+
+.scriptpilot-feature-loading h3 {
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 950;
+}
+
+.scriptpilot-feature-loading p {
+  margin-top: 4px;
+  color: var(--muted-strong);
+  line-height: 1.5;
+}
+
+@keyframes scriptpilot-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.scriptpilot-result-heading h3 {
+  margin-top: 6px;
+  color: #ffffff;
+  font-size: 1.35rem;
+  font-weight: 900;
+}
+
+.scriptpilot-idea-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.scriptpilot-idea-card {
+  display: grid;
+  align-content: start;
+  gap: 10px;
+  padding: 18px;
+}
+
+.scriptpilot-idea-card > span,
+.scriptpilot-seo-card > span {
+  color: var(--accent);
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.scriptpilot-idea-card h4 {
+  color: #ffffff;
+  font-size: 1.1rem;
+  font-weight: 900;
+  line-height: 1.28;
+}
+
+.scriptpilot-idea-card p {
+  color: var(--muted-strong);
+  line-height: 1.55;
+}
+
+.scriptpilot-idea-card dl {
+  display: grid;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.scriptpilot-idea-card dt {
+  color: var(--muted);
+  font-size: 0.75rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.scriptpilot-idea-card dd {
+  color: var(--muted-strong);
+  font-size: 0.92rem;
+}
+
+.scriptpilot-script-output,
+.scriptpilot-short-output {
+  display: grid;
+  gap: 18px;
+  padding: 20px;
+}
+
+.scriptpilot-output-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.scriptpilot-output-meta span {
+  border-radius: 999px;
+  border: 1px solid rgba(143, 162, 255, 0.22);
+  background: rgba(143, 162, 255, 0.09);
+  padding: 5px 9px;
+  color: #c5ceff;
+  font-size: 0.78rem;
+  font-weight: 850;
+}
+
+.scriptpilot-script-output p,
+.scriptpilot-short-output p {
+  margin-top: 8px;
+  white-space: pre-wrap;
+  color: var(--muted-strong);
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+.scriptpilot-script-output textarea {
+  min-height: clamp(420px, 55vh, 720px);
+  width: 100%;
+  resize: vertical;
+  border-radius: 12px;
+  border: 1px solid var(--border-strong);
+  background: #0b111d;
+  padding: 12px;
+  color: var(--muted-strong);
+  font-size: 1rem;
+  line-height: 1.7;
+  outline: none;
+}
+
+.scriptpilot-script-output textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(143, 162, 255, 0.14);
+}
+
+.scriptpilot-tab-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  border-radius: 13px;
+  background: #0b111d;
+  padding: 5px;
+}
+
+.scriptpilot-tab-list button {
+  border-radius: 10px;
+  padding: 10px;
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-weight: 900;
+}
+
+.scriptpilot-tab-list button.active {
+  background: rgba(143, 162, 255, 0.14);
+  color: #ffffff;
+  box-shadow: inset 0 -2px 0 var(--accent);
+}
+
+.scriptpilot-seo-list {
+  display: grid;
+  gap: 12px;
+}
+
+.scriptpilot-seo-card {
+  padding: 18px;
+}
+
+.scriptpilot-seo-card p {
+  margin-top: 8px;
+  white-space: pre-wrap;
+  color: var(--muted-strong);
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+.scriptpilot-seo-card.description p {
+  line-height: 1.75;
+}
+
+.scriptpilot-tag-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.scriptpilot-tag-cloud span {
+  border-radius: 999px;
+  border: 1px solid rgba(143, 162, 255, 0.26);
+  background: rgba(143, 162, 255, 0.09);
+  padding: 9px 12px;
+  color: var(--muted-strong);
+  font-size: 0.92rem;
+  font-weight: 800;
+}
+
+.scriptpilot-action-panel,
+.scriptpilot-upgrade-panel,
+.scriptpilot-error-panel,
+.scriptpilot-trend-card,
+.scriptpilot-plan-card,
+.scriptpilot-empty-feature {
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--panel);
+}
+
+.scriptpilot-action-panel {
+  margin-bottom: 22px;
+  padding: 18px;
+}
+
+.scriptpilot-action-panel > div,
+.scriptpilot-upgrade-panel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.scriptpilot-panel-label {
+  color: var(--accent);
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.scriptpilot-action-panel p:not(.scriptpilot-panel-label),
+.scriptpilot-upgrade-panel p {
+  margin-top: 4px;
+  color: var(--muted-strong);
+  font-size: 0.96rem;
+}
+
+.scriptpilot-error-panel {
+  margin-bottom: 18px;
+  border-color: rgba(248, 113, 113, 0.35);
+  background: rgba(127, 29, 29, 0.22);
+  padding: 14px 16px;
+  color: #fecdd3;
+}
+
+.scriptpilot-upgrade-panel {
+  margin-bottom: 18px;
+  padding: 18px;
+}
+
+.scriptpilot-upgrade-panel h3 {
+  color: #ffffff;
+  font-size: 1.05rem;
+  font-weight: 900;
+}
+
+.scriptpilot-results-grid {
+  display: grid;
+  gap: 16px;
+}
+
+.scriptpilot-trend-card {
+  padding: 22px;
+}
+
+.scriptpilot-empty-state h3,
+.scriptpilot-empty-feature h2,
+.scriptpilot-trend-heading h3,
+.scriptpilot-plan-card h2 {
+  color: #ffffff;
+  font-weight: 900;
+  line-height: 1.15;
+}
+
+.scriptpilot-empty-state h3,
+.scriptpilot-empty-feature h2 {
+  font-size: 1.6rem;
+}
+
+.scriptpilot-empty-state p,
+.scriptpilot-empty-feature p:not(.scriptpilot-eyebrow) {
+  margin-top: 10px;
+  max-width: 620px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.scriptpilot-empty-feature {
+  padding: 34px;
+}
+
+.scriptpilot-trend-heading {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.scriptpilot-trend-heading h3 {
+  font-size: 1.35rem;
+}
+
+.scriptpilot-trend-heading span {
+  border-radius: 999px;
+  border: 1px solid rgba(66, 201, 246, 0.28);
+  background: rgba(66, 201, 246, 0.1);
+  padding: 5px 10px;
+  color: #9ee9ff;
+  font-size: 0.78rem;
+  font-weight: 850;
+  white-space: nowrap;
+}
+
+.scriptpilot-metric-stack {
+  display: grid;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.scriptpilot-metric-row {
+  display: grid;
+  grid-template-columns: 120px minmax(160px, 1fr) 54px;
+  align-items: center;
+  gap: 14px;
+}
+
+.scriptpilot-metric-row span:first-child {
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.scriptpilot-metric-row strong {
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-weight: 900;
+  text-align: right;
+}
+
+.scriptpilot-meter {
+  height: 8px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #2a344a;
+}
+
+.scriptpilot-competition {
+  display: inline-flex;
+  width: fit-content;
+  min-width: 82px;
+  justify-content: center;
+  border-radius: 999px;
+  border: 1px solid rgba(164, 184, 255, 0.25);
+  padding: 6px 12px;
+  font-size: 0.82rem;
+}
+
+.scriptpilot-competition.low {
+  background: rgba(35, 90, 95, 0.55);
+  color: #93e6ff;
+}
+
+.scriptpilot-competition.medium {
+  background: rgba(98, 78, 45, 0.55);
+  color: #ffe15c;
+}
+
+.scriptpilot-competition.high {
+  background: rgba(93, 44, 66, 0.55);
+  color: #ffb8cc;
+}
+
+.scriptpilot-trend-summary {
+  margin-top: 18px;
+  color: var(--muted-strong);
+  font-size: 0.98rem;
+  line-height: 1.65;
+}
+
+.scriptpilot-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.scriptpilot-inline-action {
+  display: inline-flex;
+  min-height: 38px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  border: 1px solid rgba(143, 162, 255, 0.35);
+  background: rgba(143, 162, 255, 0.1);
+  padding: 8px 12px;
+  color: #dce4ff;
+  font-size: 0.86rem;
+  font-weight: 900;
+}
+
+.scriptpilot-inline-action:hover {
+  border-color: rgba(143, 162, 255, 0.72);
+  background: rgba(143, 162, 255, 0.16);
+}
+
+.scriptpilot-workflow-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid rgba(143, 162, 255, 0.22);
+  border-radius: 14px;
+  background: rgba(8, 14, 35, 0.72);
+  padding: 10px;
+}
+
+.scriptpilot-seo-handoff-button {
+  display: inline-flex;
+  min-height: 52px;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border: 0;
+  border-radius: 999px;
+  background: #c9c5ff;
+  color: #121727;
+  font-size: 0.98rem;
+  font-weight: 950;
+  box-shadow: 0 18px 34px rgba(143, 162, 255, 0.18);
+}
+
+.scriptpilot-seo-handoff-button:hover:not(:disabled) {
+  background: #d7d3ff;
+}
+
+.scriptpilot-seo-handoff-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.scriptpilot-workflow-actions button {
+  display: inline-flex;
+  min-height: 38px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 10px;
+  border: 1px solid rgba(143, 162, 255, 0.32);
+  background: rgba(143, 162, 255, 0.1);
+  padding: 8px 12px;
+  color: #e6ebff;
+  font-size: 0.86rem;
+  font-weight: 900;
+}
+
+.scriptpilot-workflow-actions button:hover:not(:disabled),
+.scriptpilot-workflow-actions button.active {
+  border-color: rgba(143, 162, 255, 0.72);
+  background: rgba(143, 162, 255, 0.18);
+}
+
+.scriptpilot-workflow-actions button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.scriptpilot-feedback-actions {
+  display: inline-flex;
+  gap: 8px;
+}
+
+.scriptpilot-workflow-actions > span {
+  color: var(--muted-strong);
+  font-size: 0.86rem;
+  font-weight: 800;
+}
+
+.scriptpilot-local-save-note {
+  color: var(--muted-strong);
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.scriptpilot-projects-layout {
+  display: grid;
+  grid-template-columns: minmax(300px, 0.8fr) minmax(0, 1.2fr);
+  gap: 22px;
+  align-items: start;
+}
+
+.scriptpilot-projects-list,
+.scriptpilot-project-detail,
+.scriptpilot-project-content {
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--panel);
+}
+
+.scriptpilot-projects-list,
+.scriptpilot-project-detail {
+  display: grid;
+  gap: 16px;
+  padding: 20px;
+}
+
+.scriptpilot-project-card-list {
+  display: grid;
+  gap: 10px;
+}
+
+.scriptpilot-project-card-list button {
+  display: grid;
+  gap: 6px;
+  border-radius: 13px;
+  border: 1px solid rgba(143, 162, 255, 0.18);
+  background: rgba(11, 17, 29, 0.72);
+  padding: 14px;
+  text-align: left;
+}
+
+.scriptpilot-project-card-list button:hover,
+.scriptpilot-project-card-list button.active {
+  border-color: rgba(143, 162, 255, 0.58);
+  background: rgba(143, 162, 255, 0.1);
+}
+
+.scriptpilot-project-card-list span {
+  color: var(--accent);
+  font-size: 0.72rem;
+  font-weight: 950;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.scriptpilot-project-card-list strong {
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 950;
+}
+
+.scriptpilot-project-card-list em,
+.scriptpilot-project-content span {
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-style: normal;
+  font-weight: 800;
+}
+
+.scriptpilot-project-content {
+  display: grid;
+  gap: 18px;
+  padding: 20px;
+}
+
+.scriptpilot-project-content h3 {
+  margin-top: 6px;
+  color: #ffffff;
+  font-size: 1.35rem;
+  font-weight: 950;
+}
+
+.scriptpilot-project-content pre {
+  max-height: min(68vh, 760px);
+  overflow: auto;
+  white-space: pre-wrap;
+  border-radius: 13px;
+  border: 1px solid rgba(143, 162, 255, 0.16);
+  background: #0b111d;
+  padding: 16px;
+  color: var(--muted-strong);
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  font-size: 0.98rem;
+  line-height: 1.7;
+}
+
+.scriptpilot-tag-section {
+  display: grid;
+  gap: 14px;
+}
+
+.scriptpilot-tag-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.scriptpilot-copy-tags-action {
+  display: inline-flex;
+  min-height: 42px;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  border-radius: 12px;
+  border: 1px solid rgba(201, 197, 255, 0.58);
+  background:
+    linear-gradient(180deg, rgba(201, 197, 255, 0.28), rgba(143, 162, 255, 0.16)),
+    #151d34;
+  padding: 9px 14px;
+  color: #f4f6ff;
+  font-size: 0.9rem;
+  font-weight: 950;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.scriptpilot-copy-tags-action:hover {
+  border-color: rgba(201, 197, 255, 0.9);
+  background:
+    linear-gradient(180deg, rgba(201, 197, 255, 0.36), rgba(143, 162, 255, 0.22)),
+    #18213b;
+}
+
+.scriptpilot-copy-tags-action svg {
+  color: #c9c5ff;
+}
+
+.scriptpilot-tag-toolbar span {
+  color: var(--muted-strong);
+  font-size: 0.86rem;
+  font-weight: 800;
+}
+
+.scriptpilot-settings-page {
+  display: grid;
+  gap: 24px;
+}
+
+.scriptpilot-profile-card,
+.scriptpilot-profile-stats,
+.scriptpilot-settings-nav-card,
+.scriptpilot-support-card,
+.scriptpilot-about-card,
+.scriptpilot-about-hero {
+  border: 1px solid rgba(143, 162, 255, 0.24);
+  border-radius: 18px;
+  background: rgba(16, 18, 26, 0.9);
+}
+
+.scriptpilot-profile-card {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  background:
+    radial-gradient(circle at 88% 18%, rgba(66, 201, 246, 0.13), transparent 28%),
+    rgba(22, 32, 50, 0.9);
+  padding: 24px;
+}
+
+.scriptpilot-profile-avatar,
+.scriptpilot-settings-card-icon,
+.scriptpilot-support-icon {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  background: rgba(143, 162, 255, 0.14);
+  color: var(--accent);
+}
+
+.scriptpilot-profile-avatar {
+  height: 64px;
+  width: 64px;
+  border-radius: 20px;
+}
+
+.scriptpilot-profile-card h2 {
+  color: #ffffff;
+  font-size: 1.7rem;
+  font-weight: 950;
+}
+
+.scriptpilot-profile-card p:not(.scriptpilot-eyebrow) {
+  margin-top: 6px;
+  color: var(--muted-strong);
+}
+
+.scriptpilot-profile-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  overflow: hidden;
+}
+
+.scriptpilot-profile-stats div {
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+  padding: 20px 14px;
+}
+
+.scriptpilot-profile-stats div + div {
+  border-left: 1px solid rgba(143, 162, 255, 0.16);
+}
+
+.scriptpilot-profile-stats strong {
+  color: #ffffff;
+  font-size: 2rem;
+  font-weight: 950;
+}
+
+.scriptpilot-profile-stats span {
+  color: var(--muted-strong);
+  font-size: 0.9rem;
+  font-weight: 850;
+  text-align: center;
+}
+
+.scriptpilot-settings-section {
+  display: grid;
+  gap: 16px;
+  scroll-margin-top: 24px;
+}
+
+.scriptpilot-settings-section h2 {
+  color: #ffffff;
+  font-size: 1.35rem;
+  font-weight: 950;
+}
+
+.scriptpilot-settings-card-grid,
+.scriptpilot-settings-list {
+  display: grid;
+  gap: 14px;
+}
+
+.scriptpilot-settings-card-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.scriptpilot-settings-nav-card,
+.scriptpilot-support-card {
+  display: grid;
+  min-height: 104px;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 16px;
+  padding: 18px;
+  color: inherit;
+  text-align: left;
+}
+
+.scriptpilot-settings-nav-card.no-icon {
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.scriptpilot-settings-nav-card:hover,
+.scriptpilot-support-card:hover {
+  border-color: rgba(143, 162, 255, 0.55);
+  background: rgba(22, 25, 36, 0.94);
+}
+
+.scriptpilot-settings-nav-card strong,
+.scriptpilot-support-card strong {
+  display: block;
+  color: #ffffff;
+  font-size: 1.1rem;
+  font-weight: 950;
+}
+
+.scriptpilot-settings-nav-card em,
+.scriptpilot-support-card em {
+  display: block;
+  margin-top: 6px;
+  color: var(--muted-strong);
+  font-style: normal;
+  line-height: 1.4;
+}
+
+.scriptpilot-settings-card-icon,
+.scriptpilot-support-icon {
+  height: 48px;
+  width: 48px;
+  border-radius: 16px;
+}
+
+.scriptpilot-settings-controls {
+  display: grid;
+  gap: 18px;
+  max-width: 760px;
+}
+
+.scriptpilot-floating-select {
+  position: relative;
+  display: grid;
+}
+
+.scriptpilot-floating-select span {
+  position: absolute;
+  top: -10px;
+  left: 22px;
+  background: #0a1121;
+  padding: 0 8px;
+  color: var(--muted-strong);
+  font-size: 0.84rem;
+  font-weight: 850;
+}
+
+.scriptpilot-floating-select select {
+  min-height: 58px;
+  border-radius: 8px;
+  border: 1px solid rgba(164, 184, 255, 0.48);
+  background: #0a1121;
+  padding: 0 18px;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 850;
+  outline: none;
+}
+
+.scriptpilot-floating-select select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(143, 162, 255, 0.14);
+}
+
+.scriptpilot-toggle-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 18px;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 850;
+}
+
+.scriptpilot-toggle-row input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.scriptpilot-toggle-row em {
+  position: relative;
+  display: block;
+  height: 34px;
+  width: 62px;
+  border-radius: 999px;
+  border: 2px solid rgba(164, 184, 255, 0.42);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.scriptpilot-toggle-row em::after {
+  position: absolute;
+  top: 5px;
+  left: 6px;
+  height: 20px;
+  width: 20px;
+  border-radius: 999px;
+  background: #8ea0bf;
+  content: "";
+  transition: transform 160ms ease, background 160ms ease;
+}
+
+.scriptpilot-toggle-row input:checked + em {
+  border-color: rgba(143, 162, 255, 0.72);
+  background: rgba(0, 124, 180, 0.72);
+}
+
+.scriptpilot-toggle-row input:checked + em::after {
+  transform: translateX(26px);
+  background: #c9c5ff;
+}
+
+.scriptpilot-toggle-row.disabled {
+  opacity: 0.46;
+}
+
+.scriptpilot-reset-preferences,
+.scriptpilot-text-action {
+  justify-self: start;
+  color: var(--accent);
+  font-weight: 950;
+}
+
+.scriptpilot-reset-preferences {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 42px;
+}
+
+.scriptpilot-settings-logout-button {
+  display: inline-flex;
+  min-height: 56px;
+  width: min(100%, 760px);
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border: 1px solid rgba(164, 184, 255, 0.36);
+  border-radius: 999px;
+  background: rgba(8, 14, 35, 0.42);
+  color: var(--accent);
+  font-weight: 950;
+  transition:
+    border-color 160ms ease,
+    background 160ms ease,
+    transform 160ms ease;
+}
+
+.scriptpilot-settings-logout-button:hover:not(:disabled) {
+  border-color: rgba(164, 184, 255, 0.68);
+  background: rgba(143, 162, 255, 0.12);
+  transform: translateY(-1px);
+}
+
+.scriptpilot-settings-logout-button:disabled {
+  cursor: progress;
+  opacity: 0.68;
+}
+
+.scriptpilot-settings-muted {
+  color: var(--muted-strong);
+  line-height: 1.5;
+}
+
+.scriptpilot-about-hero {
+  display: grid;
+  gap: 14px;
+  background: rgba(25, 38, 58, 0.9);
+  padding: 28px;
+}
+
+.scriptpilot-about-hero h3 {
+  color: #ffffff;
+  font-size: 2.2rem;
+  font-weight: 950;
+}
+
+.scriptpilot-about-hero p {
+  color: var(--accent);
+  font-size: 1.1rem;
+  font-weight: 800;
+}
+
+.scriptpilot-about-hero span,
+.scriptpilot-about-card p {
+  color: var(--muted-strong);
+}
+
+.scriptpilot-about-card {
+  padding: 22px;
+}
+
+.scriptpilot-about-card h3 {
+  color: var(--accent);
+  font-size: 1.15rem;
+  font-weight: 950;
+}
+
+.scriptpilot-about-card p {
+  margin-top: 12px;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.scriptpilot-settings-footer {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  padding: 18px 0 8px;
+  text-align: center;
+}
+
+.scriptpilot-settings-footer strong,
+.scriptpilot-settings-footer span {
+  color: #ffffff;
+  font-size: 1.05rem;
+  font-weight: 950;
+}
+
+.scriptpilot-settings-footer p {
+  color: rgba(164, 184, 255, 0.44);
+}
+
+.scriptpilot-settings-toast {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 70;
+  border: 1px solid rgba(143, 162, 255, 0.34);
+  border-radius: 999px;
+  background: #11182b;
+  padding: 12px 16px;
+  color: #e7ebff;
+  font-weight: 850;
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.32);
+}
+
+.scriptpilot-info-modal {
+  display: grid;
+  gap: 12px;
+}
+
+.scriptpilot-premium-page {
+  display: grid;
+  gap: 22px;
+}
+
+.scriptpilot-plan-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  align-items: stretch;
+}
+
+.scriptpilot-plan-card {
+  position: relative;
+  display: flex;
+  min-height: 560px;
+  flex-direction: column;
+  border: 1px solid rgba(143, 162, 255, 0.22);
+  border-radius: 18px;
+  background:
+    radial-gradient(circle at 86% 8%, rgba(143, 162, 255, 0.14), transparent 28%),
+    rgba(9, 15, 31, 0.9);
+  padding: 24px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+.scriptpilot-plan-card.featured {
+  border-color: rgba(143, 162, 255, 0.6);
+  box-shadow:
+    0 24px 70px rgba(9, 12, 31, 0.26),
+    0 0 0 1px rgba(143, 162, 255, 0.24);
+}
+
+.scriptpilot-plan-badge {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  border-radius: 999px;
+  background: rgba(143, 162, 255, 0.16);
+  padding: 7px 10px;
+  color: #dce4ff;
+  font-size: 0.74rem;
+  font-weight: 950;
+}
+
+.scriptpilot-plan-card h2 {
+  max-width: 78%;
+  color: #f8fbff;
+  font-size: 1.48rem;
+  font-weight: 950;
+}
+
+.scriptpilot-plan-price {
+  margin-top: 14px;
+  color: var(--accent);
+  font-size: 2rem;
+  font-weight: 950;
+}
+
+.scriptpilot-plan-subtitle {
+  margin-top: 8px;
+  min-height: 48px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.scriptpilot-plan-perks {
+  display: grid;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.scriptpilot-plan-perks p {
+  display: flex;
+  gap: 10px;
+  color: var(--muted-strong);
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+
+.scriptpilot-plan-perks svg {
+  margin-top: 2px;
+  flex: 0 0 auto;
+  color: var(--accent-strong);
+}
+
+.scriptpilot-plan-button {
+  margin-top: auto;
+  min-height: 48px;
+  border-radius: 999px;
+  background: var(--accent);
+  padding: 12px 16px;
+  color: #101827;
+  font-weight: 950;
+}
+
+.scriptpilot-plan-button:hover:not(:disabled) {
+  background: #d7d3ff;
+}
+
+.scriptpilot-plan-button.current,
+.scriptpilot-plan-button:disabled {
+  cursor: not-allowed;
+  background: #243044;
+  color: #8e99ad;
+}
+
+.scriptpilot-comparison-card {
+  border: 1px solid rgba(143, 162, 255, 0.22);
+  border-radius: 18px;
+  background: rgba(9, 15, 31, 0.88);
+  padding: 22px;
+}
+
+.scriptpilot-comparison-table {
+  display: grid;
+  gap: 1px;
+  margin-top: 18px;
+  overflow: hidden;
+  border: 1px solid rgba(143, 162, 255, 0.18);
+  border-radius: 14px;
+  background: rgba(143, 162, 255, 0.14);
+}
+
+.scriptpilot-comparison-row {
+  display: grid;
+  grid-template-columns: 1.15fr repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  background: rgba(143, 162, 255, 0.12);
+}
+
+.scriptpilot-comparison-row span {
+  background: rgba(9, 15, 31, 0.96);
+  padding: 14px 16px;
+  color: var(--muted-strong);
+  font-size: 0.92rem;
+  font-weight: 800;
+}
+
+.scriptpilot-comparison-row.header span {
+  color: #ffffff;
+  font-weight: 950;
+}
+
+.scriptpilot-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  background: rgba(2, 6, 18, 0.72);
+  padding: 24px;
+  backdrop-filter: blur(12px);
+}
+
+.scriptpilot-upgrade-modal {
+  position: relative;
+  width: min(100%, 520px);
+  border: 1px solid rgba(143, 162, 255, 0.35);
+  border-radius: 22px;
+  background: #0a1121;
+  padding: 28px;
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.45);
+}
+
+.scriptpilot-modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  display: grid;
+  height: 36px;
+  width: 36px;
+  place-items: center;
+  border-radius: 999px;
+  border: 1px solid rgba(143, 162, 255, 0.22);
+  background: rgba(143, 162, 255, 0.08);
+  color: #ffffff;
+}
+
+.scriptpilot-modal-icon {
+  display: grid;
+  height: 54px;
+  width: 54px;
+  place-items: center;
+  border-radius: 16px;
+  background: rgba(143, 162, 255, 0.14);
+  color: var(--accent);
+}
+
+.scriptpilot-upgrade-modal h2 {
+  margin-top: 10px;
+  color: #ffffff;
+  font-size: 1.55rem;
+  font-weight: 950;
+}
+
+.scriptpilot-upgrade-modal > p:not(.scriptpilot-eyebrow) {
+  margin-top: 10px;
+  color: var(--muted-strong);
+  line-height: 1.65;
+}
+
+.scriptpilot-modal-form {
+  display: grid;
+  gap: 14px;
+  margin-top: 22px;
+}
+
+.scriptpilot-modal-form label {
+  display: grid;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 0.86rem;
+  font-weight: 850;
+}
+
+.scriptpilot-modal-form input {
+  min-height: 46px;
+  border-radius: 12px;
+  border: 1px solid var(--border-strong);
+  background: #0d1528;
+  padding: 0 13px;
+  color: #ffffff;
+  outline: none;
+}
+
+.scriptpilot-modal-form input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(143, 162, 255, 0.14);
+}
+
+.scriptpilot-modal-form button,
+.scriptpilot-modal-confirmation {
+  display: inline-flex;
+  min-height: 46px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 999px;
+  background: var(--accent);
+  padding: 12px 16px;
+  color: #101827;
+  font-weight: 950;
+}
+
+.scriptpilot-modal-confirmation {
+  margin-top: 22px;
+}
+
+.marketing-screen {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 18% 18%, rgba(66, 201, 246, 0.14), transparent 26%),
+    linear-gradient(180deg, #0a1020, #070b14);
+  color: #ffffff;
+}
+
+.marketing-shell {
+  margin: 0 auto;
+  display: grid;
+  min-height: 100vh;
+  max-width: 1180px;
+  grid-template-columns: minmax(0, 1.1fr) 420px;
+  align-items: center;
+  gap: 56px;
+  padding: 48px;
+}
+
+.marketing-hero h1 {
+  margin-top: 14px;
+  color: #ffffff;
+  font-size: clamp(2.8rem, 5vw, 5.4rem);
+  font-weight: 950;
+  line-height: 0.96;
+}
+
+.marketing-logo-lockup {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  color: inherit;
+}
+
+.marketing-logo-lockup img {
+  height: 54px;
+  width: 54px;
+  border-radius: 15px;
+  border: 1px solid rgba(143, 162, 255, 0.45);
+  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.3);
+  object-fit: cover;
+}
+
+.marketing-hero p:not(.scriptpilot-eyebrow) {
+  margin-top: 22px;
+  max-width: 670px;
+  color: var(--muted-strong);
+  font-size: 1.1rem;
+  line-height: 1.75;
+}
+
+.marketing-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 30px;
+}
+
+.marketing-card,
+.auth-card {
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: rgba(16, 23, 37, 0.88);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.24);
+}
+
+.marketing-card {
+  display: grid;
+  gap: 14px;
+  padding: 24px;
+}
+
+.marketing-card div {
+  border-radius: 14px;
+  border: 1px solid rgba(143, 162, 255, 0.18);
+  background: rgba(143, 162, 255, 0.08);
+  padding: 18px;
+}
+
+.marketing-card strong {
+  display: block;
+  color: #ffffff;
+  font-size: 1rem;
+}
+
+.marketing-card span {
+  display: block;
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+.auth-card {
+  padding: 24px;
+}
+
+.auth-toggle {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 4px;
+  margin-bottom: 22px;
+  border-radius: 12px;
+  background: #0b111d;
+  padding: 4px;
+}
+
+.auth-toggle button {
+  border-radius: 9px;
+  padding: 10px;
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-weight: 850;
+}
+
+.auth-toggle button.active {
+  background: #1b2538;
+  color: #ffffff;
+}
+
+.auth-form {
+  display: grid;
+  gap: 16px;
+}
+
+.auth-form label {
+  margin-bottom: 7px;
+  display: block;
+  color: var(--muted-strong);
+  font-size: 0.86rem;
+  font-weight: 800;
+}
+
+.auth-form input {
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: #0b111d;
+  padding: 12px 13px;
+  color: #ffffff;
+  outline: none;
+}
+
+.auth-form input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(143, 162, 255, 0.14);
+}
+
+.auth-error {
+  border-radius: 10px;
+  border: 1px solid rgba(248, 113, 113, 0.35);
+  background: rgba(127, 29, 29, 0.22);
+  padding: 10px 12px;
+  color: #fecdd3;
+  font-size: 0.9rem;
+}
+
+.auth-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 20px 0;
+  color: var(--muted);
+  font-size: 0.84rem;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+  content: "";
+  height: 1px;
+  flex: 1;
+  background: var(--border);
+}
+
+@media (max-width: 1120px) {
+  .scriptpilot-app-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .scriptpilot-sidebar {
+    position: static;
+    height: auto;
+    border-right: 0;
+    border-bottom: 1px solid rgba(67, 80, 113, 0.5);
+  }
+
+  .scriptpilot-side-nav {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .scriptpilot-sidebar-footer {
+    display: none;
+  }
+
+  .scriptpilot-main {
+    padding: 32px 24px;
+  }
+
+  .scriptpilot-workflow-grid,
+  .scriptpilot-plan-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .scriptpilot-settings-card-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .scriptpilot-feature-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .scriptpilot-projects-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .scriptpilot-form-card {
+    position: static;
+  }
+
+  .marketing-shell {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .scriptpilot-sidebar {
+    padding: 20px;
+  }
+
+  .scriptpilot-side-nav {
+    grid-template-columns: 1fr;
+  }
+
+  .scriptpilot-main {
+    padding: 24px 18px;
+  }
+
+  .scriptpilot-topbar {
+    margin-bottom: 22px;
+  }
+
+  .scriptpilot-workflow-grid,
+  .scriptpilot-plan-grid,
+  .scriptpilot-idea-grid,
+  .scriptpilot-profile-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .scriptpilot-profile-card,
+  .scriptpilot-settings-nav-card,
+  .scriptpilot-support-card {
+    grid-template-columns: 1fr auto;
+  }
+
+  .scriptpilot-profile-avatar,
+  .scriptpilot-settings-card-icon,
+  .scriptpilot-support-icon {
+    display: none;
+  }
+
+  .scriptpilot-profile-stats div + div {
+    border-left: 0;
+    border-top: 1px solid rgba(143, 162, 255, 0.16);
+  }
+
+  .scriptpilot-settings-toast {
+    right: 16px;
+    bottom: 16px;
+    left: 16px;
+    text-align: center;
+  }
+
+  .scriptpilot-section-toolbar {
+    grid-template-columns: 1fr;
+  }
+
+  .scriptpilot-action-panel > div,
+  .scriptpilot-upgrade-panel,
+  .scriptpilot-dashboard-intro,
+  .scriptpilot-trend-heading {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .scriptpilot-metric-row {
+    grid-template-columns: 1fr 54px;
+  }
+
+  .scriptpilot-tab-list {
+    grid-template-columns: 1fr;
+  }
+
+  .scriptpilot-meter {
+    grid-column: 1 / -1;
+    order: 3;
+  }
+
+  .marketing-shell {
+    gap: 28px;
+    padding: 30px 20px;
+  }
+}
