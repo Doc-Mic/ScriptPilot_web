@@ -15,6 +15,7 @@ import {
   ScriptPilotApiError,
   scriptPilotApi,
 } from "@/lib/scriptpilot/api-client";
+import { saveCurrentUserProject } from "@/lib/firebase/projects";
 
 export default function ShortsPage() {
   const quota = useDailyQuota("scriptGeneration", "scripts/shorts");
@@ -69,8 +70,14 @@ export default function ShortsPage() {
     }
   }
 
-  function handleSaveChanges() {
+  async function handleSaveChanges() {
+    await saveCurrentUserProject({
+      content: script,
+      title: topic.trim() || "Shorts script",
+      type: "short",
+    });
     setSavedScript(script);
+    return "Short saved to My Projects.";
   }
 
   return (
@@ -134,7 +141,9 @@ export default function ShortsPage() {
                 shareTitle="ScriptPilot Shorts script"
               />
               {savedScript === script ? (
-                <p className="scriptpilot-local-save-note">Short saved locally.</p>
+                <p className="scriptpilot-local-save-note">
+                  Short saved to My Projects.
+                </p>
               ) : null}
             </>
           ) : !isLoading ? (

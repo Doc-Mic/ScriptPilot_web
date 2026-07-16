@@ -10,10 +10,12 @@ import {
   Timestamp,
   type FirestoreError,
   type Unsubscribe,
+  deleteDoc,
+  doc,
 } from "firebase/firestore";
 import { getFirebaseAuth, getFirebaseFirestore } from "@/lib/firebase/client";
 
-export type SavedProjectType = "idea" | "script" | "seo";
+export type SavedProjectType = "idea" | "script" | "seo" | "short" | "trend";
 
 export type SavedProject = {
   content: string;
@@ -58,6 +60,18 @@ export async function saveCurrentUserProject(input: SaveProjectInput) {
     type: input.type,
     updatedAt: serverTimestamp(),
   });
+}
+
+export async function deleteCurrentUserProject(projectId: string) {
+  const user = getFirebaseAuth().currentUser;
+
+  if (!user) {
+    throw new Error("Sign in is required before deleting projects.");
+  }
+
+  return deleteDoc(
+    doc(getFirebaseFirestore(), "users", user.uid, "projects", projectId),
+  );
 }
 
 export function subscribeToCurrentUserProjects(
@@ -105,7 +119,11 @@ function parseProject(id: string, data: Record<string, unknown>): SavedProject {
 }
 
 function parseProjectType(value: unknown): SavedProjectType {
-  return value === "idea" || value === "script" || value === "seo"
+  return value === "idea" ||
+    value === "script" ||
+    value === "seo" ||
+    value === "short" ||
+    value === "trend"
     ? value
     : "script";
 }
@@ -113,5 +131,7 @@ function parseProjectType(value: unknown): SavedProjectType {
 function fallbackProjectTitle(type: SavedProjectType) {
   if (type === "seo") return "SEO package";
   if (type === "idea") return "Video idea";
+  if (type === "short") return "Shorts script";
+  if (type === "trend") return "Trend";
   return "Script";
 }

@@ -46,6 +46,62 @@ Not live yet:
 - Push notifications / FCM
 - Backend storage for premium-plan waitlist emails
 
+## Screenshots
+
+### Dashboard
+
+Main creator workspace with desktop navigation and feature cards.
+
+![ScriptPilot dashboard](screenshots/dashboard.png)
+
+### Trends
+
+Live trend discovery with generated trend results and workflow actions.
+
+![ScriptPilot Trends page](screenshots/trends.png)
+
+### Generate Ideas
+
+Idea generator with AI-generated video concepts and handoff actions.
+
+![ScriptPilot Generate Ideas page](screenshots/ideas.png)
+
+### Script Studio
+
+Long-form script generation with editable output and creator actions.
+
+![ScriptPilot Script Studio page](screenshots/script-studio.png)
+
+### Shorts
+
+Short-form script generation for fast creator workflows.
+
+![ScriptPilot Shorts page](screenshots/shorts.png)
+
+### SEO Assistant
+
+SEO package generation with titles, descriptions, and tags.
+
+![ScriptPilot SEO Assistant page](screenshots/seo-assistant.png)
+
+### Premium Plans
+
+Three-tier plan comparison for Free, Creator Pro, and Studio Unlimited.
+
+![ScriptPilot Premium Plans page](screenshots/premium-plans.png)
+
+### My Projects
+
+Saved creator work with project detail preview.
+
+![ScriptPilot My Projects page](screenshots/projects.png)
+
+### Settings
+
+Profile and settings workspace for account, preferences, support, and app info.
+
+![ScriptPilot Settings page](screenshots/settings.png)
+
 ## Firebase
 
 Firebase project ID:

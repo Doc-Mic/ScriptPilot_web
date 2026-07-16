@@ -3,6 +3,7 @@
 import { FirebaseError } from "firebase/app";
 import {
   createUserWithEmailAndPassword,
+  sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signInWithPopup,
 } from "firebase/auth";
@@ -52,6 +53,8 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+  const [showPasswordReset, setShowPasswordReset] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const isSignUp = mode === "sign-up";
@@ -65,6 +68,7 @@ export default function LoginPage() {
   async function handleEmailAuth(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setErrorMessage("");
+    setSuccessMessage("");
 
     if (!isConfigured) {
       setErrorMessage(
@@ -94,6 +98,7 @@ export default function LoginPage() {
 
   async function handleGoogleSignIn() {
     setErrorMessage("");
+    setSuccessMessage("");
 
     if (!isConfigured) {
       setErrorMessage(
@@ -107,6 +112,38 @@ export default function LoginPage() {
     try {
       await signInWithPopup(getFirebaseAuth(), getGoogleProvider());
       router.replace("/dashboard");
+    } catch (error) {
+      setErrorMessage(getAuthErrorMessage(error));
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
+
+  async function handlePasswordReset(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setErrorMessage("");
+    setSuccessMessage("");
+
+    if (!email.trim()) {
+      setErrorMessage("Enter your email address to reset your password.");
+      return;
+    }
+
+    if (!isConfigured) {
+      setErrorMessage(
+        "Firebase is not configured yet. Fill in .env.local before resetting your password.",
+      );
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      await sendPasswordResetEmail(getFirebaseAuth(), email.trim());
+      setSuccessMessage(
+        "If an account exists with this email, a reset link has been sent.",
+      );
+      setShowPasswordReset(false);
     } catch (error) {
       setErrorMessage(getAuthErrorMessage(error));
     } finally {
@@ -141,6 +178,8 @@ export default function LoginPage() {
               onClick={() => {
                 setMode("sign-in");
                 setErrorMessage("");
+                setSuccessMessage("");
+                setShowPasswordReset(false);
               }}
               type="button"
             >
@@ -151,6 +190,8 @@ export default function LoginPage() {
               onClick={() => {
                 setMode("sign-up");
                 setErrorMessage("");
+                setSuccessMessage("");
+                setShowPasswordReset(false);
               }}
               type="button"
             >
@@ -158,7 +199,10 @@ export default function LoginPage() {
             </button>
           </div>
 
-          <form className="auth-form" onSubmit={handleEmailAuth}>
+          <form
+            className="auth-form"
+            onSubmit={showPasswordReset ? handlePasswordReset : handleEmailAuth}
+          >
             <div>
               <label
                 htmlFor="email"
@@ -175,26 +219,33 @@ export default function LoginPage() {
               />
             </div>
 
-            <div>
-              <label
-                htmlFor="password"
-              >
-                Password
-              </label>
-              <input
-                autoComplete={isSignUp ? "new-password" : "current-password"}
-                id="password"
-                minLength={6}
-                onChange={(event) => setPassword(event.target.value)}
-                required
-                type="password"
-                value={password}
-              />
-            </div>
+            {!showPasswordReset ? (
+              <div>
+                <label
+                  htmlFor="password"
+                >
+                  Password
+                </label>
+                <input
+                  autoComplete={isSignUp ? "new-password" : "current-password"}
+                  id="password"
+                  minLength={6}
+                  onChange={(event) => setPassword(event.target.value)}
+                  required
+                  type="password"
+                  value={password}
+                />
+              </div>
+            ) : null}
 
             {errorMessage ? (
               <p className="auth-error">
                 {errorMessage}
+              </p>
+            ) : null}
+            {successMessage ? (
+              <p className="auth-success">
+                {successMessage}
               </p>
             ) : null}
 
@@ -205,22 +256,42 @@ export default function LoginPage() {
             >
               {isSubmitting
                 ? "Please wait..."
-                : isSignUp
-                  ? "Create account"
-                  : "Sign in"}
+                : showPasswordReset
+                  ? "Send reset link"
+                  : isSignUp
+                    ? "Create account"
+                    : "Sign in"}
             </button>
+
+            {!isSignUp ? (
+              <button
+                className="auth-link-button"
+                onClick={() => {
+                  setShowPasswordReset((current) => !current);
+                  setErrorMessage("");
+                  setSuccessMessage("");
+                }}
+                type="button"
+              >
+                {showPasswordReset ? "Back to sign in" : "Forgot password?"}
+              </button>
+            ) : null}
           </form>
 
-          <div className="auth-divider">or</div>
+          {!showPasswordReset ? (
+            <>
+              <div className="auth-divider">or</div>
 
-          <button
-            className="button-secondary w-full disabled:cursor-not-allowed"
-            disabled={isSubmitting}
-            onClick={handleGoogleSignIn}
-            type="button"
-          >
-            Continue with Google
-          </button>
+              <button
+                className="button-secondary w-full disabled:cursor-not-allowed"
+                disabled={isSubmitting}
+                onClick={handleGoogleSignIn}
+                type="button"
+              >
+                Continue with Google
+              </button>
+            </>
+          ) : null}
         </div>
       </section>
     </main>

@@ -1,16 +1,44 @@
 "use client";
 
+import { Trash2 } from "lucide-react";
 import { useState } from "react";
 import { DashboardShell } from "@/components/dashboard-shell";
 import { ErrorPanel, FeatureLoadingState } from "@/components/feature-status";
 import { useSavedProjects } from "@/hooks/use-saved-projects";
-import { type SavedProject } from "@/lib/firebase/projects";
+import {
+  deleteCurrentUserProject,
+  type SavedProject,
+} from "@/lib/firebase/projects";
 
 export default function ProjectsPage() {
   const { error, loading, projects } = useSavedProjects();
   const [activeProjectId, setActiveProjectId] = useState<string | null>(null);
+  const [deleteError, setDeleteError] = useState("");
+  const [deletingProjectId, setDeletingProjectId] = useState<string | null>(null);
   const activeProject =
     projects.find((project) => project.id === activeProjectId) ?? projects[0] ?? null;
+
+  async function handleDeleteProject(project: SavedProject) {
+    const confirmed = window.confirm(
+      `Delete "${project.title}"? This cannot be undone.`,
+    );
+
+    if (!confirmed) return;
+
+    setDeleteError("");
+    setDeletingProjectId(project.id);
+
+    try {
+      await deleteCurrentUserProject(project.id);
+      if (activeProjectId === project.id) {
+        setActiveProjectId(null);
+      }
+    } catch {
+      setDeleteError("Could not delete the project. Please try again.");
+    } finally {
+      setDeletingProjectId(null);
+    }
+  }
 
   return (
     <DashboardShell
@@ -32,22 +60,38 @@ export default function ProjectsPage() {
             />
           ) : null}
           <ErrorPanel
-            message={error ? "Could not load saved projects. Please try again." : ""}
+            message={
+              deleteError ||
+              (error ? "Could not load saved projects. Please try again." : "")
+            }
           />
 
           {!loading && projects.length ? (
             <div className="scriptpilot-project-card-list">
               {projects.map((project) => (
-                <button
+                <article
                   className={project.id === activeProject?.id ? "active" : ""}
                   key={project.id}
-                  onClick={() => setActiveProjectId(project.id)}
-                  type="button"
                 >
-                  <span>{projectTypeLabel(project.type)}</span>
-                  <strong>{project.title}</strong>
-                  <em>{formatProjectDate(project.updatedAt?.toDate())}</em>
-                </button>
+                  <button
+                    className="scriptpilot-project-select"
+                    onClick={() => setActiveProjectId(project.id)}
+                    type="button"
+                  >
+                    <span>{projectTypeLabel(project.type)}</span>
+                    <strong>{project.title}</strong>
+                    <em>{formatProjectDate(project.updatedAt?.toDate())}</em>
+                  </button>
+                  <button
+                    aria-label={`Delete ${project.title}`}
+                    className="scriptpilot-project-delete"
+                    disabled={deletingProjectId === project.id}
+                    onClick={() => void handleDeleteProject(project)}
+                    type="button"
+                  >
+                    <Trash2 aria-hidden="true" size={17} />
+                  </button>
+                </article>
               ))}
             </div>
           ) : null}
@@ -94,6 +138,8 @@ function ProjectDetail({ project }: { project: SavedProject }) {
 function projectTypeLabel(type: SavedProject["type"]) {
   if (type === "seo") return "SEO";
   if (type === "idea") return "Idea";
+  if (type === "short") return "Short";
+  if (type === "trend") return "Trend";
   return "Script";
 }
 

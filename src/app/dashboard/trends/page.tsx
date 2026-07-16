@@ -4,8 +4,10 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import { DashboardShell } from "@/components/dashboard-shell";
 import { FeatureLoadingState } from "@/components/feature-status";
+import { WorkflowActionBar } from "@/components/workflow-action-bar";
 import { useCurrentUserDocument } from "@/hooks/use-current-user-document";
 import { WEB_QUOTA_DISPLAY_ENABLED } from "@/lib/features/feature-flags";
+import { saveCurrentUserProject } from "@/lib/firebase/projects";
 import {
   QuotaExceededError,
   ScriptPilotApiError,
@@ -252,6 +254,26 @@ function TrendCard({ index, trend }: { index: number; trend: TrendItem }) {
           Use in Ideas
         </Link>
       </div>
+      <WorkflowActionBar
+        copyText={formatTrendForSharing(trend, {
+          competition,
+          opportunity,
+          summary,
+          title,
+          virality,
+        })}
+        onFeedback={() => undefined}
+        onSave={() =>
+          saveTrendProject(trend, {
+            competition,
+            opportunity,
+            summary,
+            title,
+            virality,
+          })
+        }
+        shareTitle={title}
+      />
     </article>
   );
 }
@@ -349,4 +371,47 @@ function competitionLabel(value: TrendItem["competition"]) {
   }
 
   return "Low";
+}
+
+function formatTrendForSharing(
+  trend: TrendItem,
+  values: {
+    competition: string;
+    opportunity: number;
+    summary: string;
+    title: string;
+    virality: number;
+  },
+) {
+  return [
+    `Trend: ${values.title}`,
+    trend.channel || trend.source ? `Source: ${trend.channel || trend.source}` : "",
+    trend.category ? `Category: ${trend.category}` : "",
+    trend.region ? `Region: ${trend.region}` : "",
+    `Virality: ${values.virality}`,
+    `Opportunity: ${values.opportunity}`,
+    `Competition: ${values.competition}`,
+    values.summary ? `Why it matters: ${values.summary}` : "",
+  ]
+    .filter(Boolean)
+    .join("\n");
+}
+
+async function saveTrendProject(
+  trend: TrendItem,
+  values: {
+    competition: string;
+    opportunity: number;
+    summary: string;
+    title: string;
+    virality: number;
+  },
+) {
+  await saveCurrentUserProject({
+    content: formatTrendForSharing(trend, values),
+    title: values.title,
+    type: "trend",
+  });
+
+  return "Trend saved to My Projects.";
 }

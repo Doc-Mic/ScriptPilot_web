@@ -1110,20 +1110,53 @@ a {
   gap: 10px;
 }
 
-.scriptpilot-project-card-list button {
+.scriptpilot-project-card-list article {
   display: grid;
-  gap: 6px;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: stretch;
   border-radius: 13px;
   border: 1px solid rgba(143, 162, 255, 0.18);
   background: rgba(11, 17, 29, 0.72);
+  overflow: hidden;
+}
+
+.scriptpilot-project-select,
+.scriptpilot-project-delete {
+  border: 0;
+  background: transparent;
+  color: #e6ebff;
+}
+
+.scriptpilot-project-select {
+  display: grid;
+  gap: 6px;
   padding: 14px;
   text-align: left;
 }
 
-.scriptpilot-project-card-list button:hover,
-.scriptpilot-project-card-list button.active {
+.scriptpilot-project-delete {
+  display: inline-flex;
+  width: 48px;
+  align-items: center;
+  justify-content: center;
+  border-left: 1px solid rgba(143, 162, 255, 0.16);
+  color: var(--muted-strong);
+}
+
+.scriptpilot-project-card-list article:hover,
+.scriptpilot-project-card-list article.active {
   border-color: rgba(143, 162, 255, 0.58);
   background: rgba(143, 162, 255, 0.1);
+}
+
+.scriptpilot-project-delete:hover:not(:disabled) {
+  background: rgba(255, 107, 130, 0.12);
+  color: #ff9caf;
+}
+
+.scriptpilot-project-delete:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
 }
 
 .scriptpilot-project-card-list span {
@@ -1422,13 +1455,24 @@ a {
   font-weight: 850;
 }
 
-.scriptpilot-toggle-row input {
-  position: absolute;
-  opacity: 0;
-  pointer-events: none;
+.scriptpilot-toggle-switch {
+  position: relative;
+  display: block;
+  height: 34px;
+  width: 62px;
 }
 
-.scriptpilot-toggle-row em {
+.scriptpilot-toggle-switch input {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  height: 100%;
+  width: 100%;
+  cursor: pointer;
+  opacity: 0;
+}
+
+.scriptpilot-toggle-switch em {
   position: relative;
   display: block;
   height: 34px;
@@ -1438,7 +1482,7 @@ a {
   background: rgba(255, 255, 255, 0.1);
 }
 
-.scriptpilot-toggle-row em::after {
+.scriptpilot-toggle-switch em::after {
   position: absolute;
   top: 5px;
   left: 6px;
@@ -1450,14 +1494,18 @@ a {
   transition: transform 160ms ease, background 160ms ease;
 }
 
-.scriptpilot-toggle-row input:checked + em {
+.scriptpilot-toggle-switch input:checked + em {
   border-color: rgba(143, 162, 255, 0.72);
   background: rgba(0, 124, 180, 0.72);
 }
 
-.scriptpilot-toggle-row input:checked + em::after {
+.scriptpilot-toggle-switch input:checked + em::after {
   transform: translateX(26px);
   background: #c9c5ff;
+}
+
+.scriptpilot-toggle-switch input:focus-visible + em {
+  box-shadow: 0 0 0 3px rgba(143, 162, 255, 0.22);
 }
 
 .scriptpilot-toggle-row.disabled {
@@ -1994,6 +2042,68 @@ a {
   padding: 10px 12px;
   color: #fecdd3;
   font-size: 0.9rem;
+}
+
+.auth-success {
+  border-radius: 10px;
+  border: 1px solid rgba(77, 217, 163, 0.34);
+  background: rgba(77, 217, 163, 0.12);
+  padding: 10px 12px;
+  color: #baf8df;
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.auth-link-button {
+  justify-self: center;
+  color: var(--accent);
+  font-size: 0.92rem;
+  font-weight: 900;
+}
+
+.auth-link-button:hover {
+  color: #d8ddff;
+}
+
+.scriptpilot-not-found-screen {
+  display: grid;
+  min-height: 100vh;
+  place-items: center;
+  background:
+    radial-gradient(circle at top left, rgba(143, 162, 255, 0.12), transparent 34%),
+    var(--background);
+  padding: 28px;
+}
+
+.scriptpilot-not-found-card {
+  display: grid;
+  max-width: 620px;
+  gap: 20px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: rgba(11, 17, 29, 0.92);
+  padding: clamp(28px, 6vw, 56px);
+  text-align: center;
+  box-shadow: var(--shadow);
+}
+
+.scriptpilot-not-found-card h1 {
+  color: #ffffff;
+  font-size: clamp(2.2rem, 7vw, 4.6rem);
+  font-weight: 950;
+}
+
+.scriptpilot-not-found-card p:not(.scriptpilot-eyebrow) {
+  color: var(--muted-strong);
+  font-size: 1.03rem;
+  line-height: 1.7;
+}
+
+.scriptpilot-not-found-card div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
 }
 
 .auth-divider {

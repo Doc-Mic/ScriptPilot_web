@@ -10,7 +10,9 @@ import {
   QuotaCard,
   QuotaExceededPanel,
 } from "@/components/feature-status";
+import { WorkflowActionBar } from "@/components/workflow-action-bar";
 import { useDailyQuota } from "@/hooks/use-daily-quota";
+import { saveCurrentUserProject } from "@/lib/firebase/projects";
 import {
   QuotaExceededError,
   ScriptPilotApiError,
@@ -183,6 +185,12 @@ function IdeasPageContent() {
                       Use in Script Studio
                     </Link>
                   </div>
+                  <WorkflowActionBar
+                    copyText={formatIdeaForSharing(idea)}
+                    onFeedback={() => undefined}
+                    onSave={() => saveIdeaProject(idea)}
+                    shareTitle={idea.title || "ScriptPilot idea"}
+                  />
                 </article>
               ))
             ) : !isLoading ? (
@@ -209,4 +217,26 @@ function buildScriptIdea(idea: IdeaItem) {
   ]
     .filter(Boolean)
     .join("\n");
+}
+
+function formatIdeaForSharing(idea: IdeaItem) {
+  return [
+    idea.title ? `Title: ${idea.title}` : "",
+    idea.hook ? `Hook: ${idea.hook}` : "",
+    idea.angle ? `Angle: ${idea.angle}` : "",
+    idea.targetAudience ? `Audience: ${idea.targetAudience}` : "",
+    idea.format ? `Format: ${idea.format}` : "",
+  ]
+    .filter(Boolean)
+    .join("\n");
+}
+
+async function saveIdeaProject(idea: IdeaItem) {
+  await saveCurrentUserProject({
+    content: formatIdeaForSharing(idea),
+    title: idea.title || "Video idea",
+    type: "idea",
+  });
+
+  return "Idea saved to My Projects.";
 }

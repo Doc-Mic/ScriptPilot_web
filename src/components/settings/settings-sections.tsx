@@ -14,7 +14,13 @@ import {
 import { signOut } from "firebase/auth";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState, useSyncExternalStore, type ReactNode } from "react";
+import {
+  useEffect,
+  useId,
+  useState,
+  useSyncExternalStore,
+  type ReactNode,
+} from "react";
 import { getFirebaseAuth } from "@/lib/firebase/client";
 import { saveCurrentUserPreferences } from "@/lib/firebase/preferences";
 import { useCurrentUserDocument } from "@/hooks/use-current-user-document";
@@ -505,16 +511,24 @@ function ToggleRow({
   label: string;
   onChange: (checked: boolean) => void;
 }) {
+  const inputId = useId();
+
   return (
-    <label className={`scriptpilot-toggle-row ${disabled ? "disabled" : ""}`}>
+    <label
+      className={`scriptpilot-toggle-row ${disabled ? "disabled" : ""}`}
+      htmlFor={inputId}
+    >
       <span>{label}</span>
-      <input
-        checked={checked}
-        disabled={disabled}
-        onChange={(event) => onChange(event.target.checked)}
-        type="checkbox"
-      />
-      <em aria-hidden="true" />
+      <span className="scriptpilot-toggle-switch">
+        <input
+          checked={checked}
+          disabled={disabled}
+          id={inputId}
+          onChange={(event) => onChange(event.target.checked)}
+          type="checkbox"
+        />
+        <em aria-hidden="true" />
+      </span>
     </label>
   );
 }
