@@ -14,19 +14,36 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  description: "AI-powered YouTube creator assistant.",
+  description:
+    "ScriptPilot is an AI-powered YouTube creator assistant for finding trends, generating ideas, writing scripts, creating Shorts, and optimizing SEO.",
   icons: {
     apple: "/scriptpilot-logo.png",
     icon: "/scriptpilot-logo.png",
     shortcut: "/scriptpilot-logo.png",
   },
-  metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
-  ),
+  metadataBase: new URL("https://scriptpilot.studio"),
   openGraph: {
-    description: "AI-powered YouTube creator assistant.",
+    description:
+      "Find YouTube trends, generate video ideas, write scripts, create Shorts, and build SEO packages from one AI-powered creator workspace.",
+    images: [
+      {
+        alt: "ScriptPilot logo",
+        height: 1200,
+        url: "/scriptpilot-logo.png",
+        width: 1200,
+      },
+    ],
+    siteName: "ScriptPilot",
+    title: "ScriptPilot - AI-powered YouTube creator assistant",
+    type: "website",
+    url: "/",
+  },
+  twitter: {
+    card: "summary_large_image",
+    description:
+      "AI-powered YouTube creator tools for trends, ideas, scripts, Shorts, and SEO.",
     images: ["/scriptpilot-logo.png"],
-    title: "ScriptPilot",
+    title: "ScriptPilot - AI-powered YouTube creator assistant",
   },
   title: "ScriptPilot",
 };

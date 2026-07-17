@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">AI Script Workflow Checklist</title>
+  <desc id="desc">ScriptPilot placeholder blog cover</desc>
+  <rect width="1200" height="630" fill="#070b14"/>
+  <rect x="56" y="56" width="1088" height="518" rx="36" fill="#101725" stroke="#435071" stroke-width="2"/>
+  <path d="M914 118h154v154H914z" fill="#8fa2ff" opacity="0.16"/>
+  <path d="M914 324h154v154H914z" fill="#42c9f6" opacity="0.14"/>
+  <text x="96" y="154" fill="#8fa2ff" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="800" letter-spacing="4">SCRIPTPILOT BLOG</text>
+  <text x="96" y="300" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="72" font-weight="900">AI Script Workflow</text>
+  <text x="96" y="386" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="72" font-weight="900">Checklist</text>
+  <text x="96" y="492" fill="#cbd3e4" font-family="Arial, Helvetica, sans-serif" font-size="32">Sample post cover</text>
+</svg>
