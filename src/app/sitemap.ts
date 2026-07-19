@@ -1,6 +1,8 @@
 import type { MetadataRoute } from "next";
 import { getPublishedBlogPosts } from "@/lib/blog/posts";
 
+export const revalidate = 3600;
+
 const siteUrl = (
   process.env.NEXT_PUBLIC_SITE_URL || "https://scriptpilot.studio"
 ).replace(/\/$/, "");

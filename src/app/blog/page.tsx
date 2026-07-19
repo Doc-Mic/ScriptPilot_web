@@ -2,6 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { formatBlogDate, getPublishedBlogPosts } from "@/lib/blog/posts";
 
+export const revalidate = 3600;
+
 export default async function BlogIndexPage() {
   const posts = await getPublishedBlogPosts();
 

@@ -9,6 +9,8 @@ import {
   getPublishedBlogPosts,
 } from "@/lib/blog/posts";
 
+export const revalidate = 3600;
+
 type BlogPostPageProps = {
   params: Promise<{
     slug: string;
